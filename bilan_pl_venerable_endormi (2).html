@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilan PL — Vénérable Endormi | TENMA</title>
+<link href="https://fonts.bunny.net/css?family=rajdhani:400,600,700|barlow:400,600,700,800|exo-2:400,500,600|orbitron:700,900" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0c10;
+    --bg2:       #0f1218;
+    --bg3:       #161b24;
+    --bg4:       #1c2330;
+    --border:    #2a3445;
+    --border2:   #3a4a60;
+    --gold:      #f0b429;
+    --gold2:     #ffd166;
+    --gold-dim:  #8a6a15;
+    --cyan:      #38bdf8;
+    --cyan-dim:  #1e6a8a;
+    --green:     #4ade80;
+    --green-dim: #166534;
+    --red:       #f87171;
+    --red-dim:   #7f1d1d;
+    --orange:    #fb923c;
+    --purple:    #a78bfa;
+    --text:      #e2e8f0;
+    --text2:     #94a3b8;
+    --text3:     #64748b;
+    --lc:        #38bdf8;
+    --pr:        #f0b429;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* BG texture */
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% -10%, rgba(56,189,248,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 110%, rgba(240,180,41,0.04) 0%, transparent 60%);
+    pointer-events:none; z-index:0;
+  }
+
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    position: relative; z-index:1;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 48px 0 40px;
+    position: relative;
+  }
+  .header::before {
+    content:'';
+    position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+    width:60%; height:1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(240,180,41,0.12);
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 4px 16px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    color: #fff;
+    text-shadow: 0 0 40px rgba(240,180,41,0.3);
+    margin-bottom: 10px;
+  }
+  .header h1 span { color: var(--gold); }
+  .header .sub {
+    color: var(--text2);
+    font-size: 13px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 40px 0 18px;
+  }
+  .section-title .icon {
+    font-size: 20px;
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+  .section-title h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text2);
+  }
+  .section-title h2 span { color: var(--gold); }
+  .section-title::after {
+    content:''; flex:1; height:1px;
+    background: linear-gradient(90deg, var(--border2), transparent);
+  }
+
+  /* ── CARDS GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media(max-width:700px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .2s, transform .2s;
+  }
+  .card:hover { border-color: var(--border2); transform: translateY(-1px); }
+  .card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background: linear-gradient(90deg, transparent, var(--accent,var(--gold-dim)), transparent);
+  }
+  .card.cyan { --accent: var(--cyan-dim); }
+  .card.green { --accent: var(--green-dim); }
+  .card.red { --accent: var(--red-dim); }
+  .card.purple { --accent: var(--purple); opacity:.8; }
+  .card.gold { --accent: var(--gold); }
+
+  .card .card-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap:6px;
+  }
+  .card .card-label .dot {
+    width:6px; height:6px; border-radius:50%;
+    background: var(--accent, var(--gold));
+    box-shadow: 0 0 6px var(--accent, var(--gold));
+  }
+  .card .card-value {
+    font-family: 'Exo 2', sans-serif;
+    font-size: clamp(18px, 2.8vw, 26px);
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    letter-spacing: 0;
+  }
+  .card .card-sub {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--text3);
+  }
+  .card .lc { color: var(--lc); }
+  .card .pr { color: var(--pr); }
+  .card .green-val { color: var(--green); }
+  .card .red-val { color: var(--red); }
+
+  /* ── TABLE ── */
+  .table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  table { width:100%; border-collapse:collapse; }
+  thead tr {
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border2);
+  }
+  thead th {
+    padding: 10px 14px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text3);
+    text-align: left;
+  }
+  thead th.right { text-align: right; }
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background .15s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg3); }
+  tbody td {
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text);
+  }
+  tbody td.right { text-align: right; }
+  tbody td.lc { color: var(--lc); font-weight:600; text-align:right; }
+  tbody td.pr { color: var(--pr); font-weight:600; text-align:right; }
+  tbody td.green-val { color: var(--green); font-weight:600; text-align:right; }
+  tbody td.muted { color: var(--text3); font-size:12px; }
+  tbody td .tag {
+    display:inline-block;
+    padding:2px 8px; border-radius:3px;
+    font-size:10px; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; font-family:'Rajdhani',sans-serif;
+  }
+  .tag.lc-tag { background:rgba(56,189,248,.12); border:1px solid rgba(56,189,248,.3); color:var(--lc); }
+  .tag.pr-tag { background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.3); color:var(--pr); }
+  .tag.both-tag { background:rgba(74,222,128,.1); border:1px solid rgba(74,222,128,.2); color:var(--green); }
+
+  /* ── DIVIDER ROW ── */
+  tr.divider td {
+    background: var(--bg3);
+    font-family:'Rajdhani',sans-serif;
+    font-weight:700; font-size:10px;
+    letter-spacing:2px; text-transform:uppercase;
+    color: var(--text3); padding:6px 14px;
+  }
+
+  /* ── TOTAL ROW ── */
+  tr.total-row {
+    background: var(--bg3) !important;
+    border-top: 1px solid var(--border2) !important;
+  }
+  tr.total-row td {
+    font-family:'Barlow', sans-serif; font-weight:800; font-size:14px;
+    padding:12px 14px; letter-spacing:0.5px;
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin: 14px 0;
+    display: flex; align-items: flex-start; gap: 14px;
+    border: 1px solid;
+  }
+  .highlight-box.info { background:rgba(56,189,248,.07); border-color:rgba(56,189,248,.2); }
+  .highlight-box.warn { background:rgba(240,180,41,.07); border-color:rgba(240,180,41,.2); }
+  .highlight-box.success { background:rgba(74,222,128,.07); border-color:rgba(74,222,128,.2); }
+  .highlight-box.danger { background:rgba(248,113,113,.07); border-color:rgba(248,113,113,.2); }
+  .highlight-box .hb-icon { font-size:22px; flex-shrink:0; margin-top:2px; }
+  .highlight-box .hb-title {
+    font-family:'Rajdhani',sans-serif; font-weight:700;
+    font-size:12px; letter-spacing:2px; text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .highlight-box.info .hb-title { color:var(--cyan); }
+  .highlight-box.warn .hb-title { color:var(--gold); }
+  .highlight-box.success .hb-title { color:var(--green); }
+  .highlight-box.danger .hb-title { color:var(--red); }
+  .highlight-box .hb-text { color:var(--text2); font-size:13px; line-height:1.6; }
+  .highlight-box .hb-text strong { color:var(--text); }
+
+  /* ── AMORTISSEMENT VISUEL ── */
+  .amort-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px 24px;
+    position:relative; overflow:hidden;
+  }
+  .amort-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background: linear-gradient(90deg, transparent, var(--ac,var(--gold-dim)), transparent);
+  }
+  .amort-card.lc-card { --ac: var(--lc); }
+  .amort-card.pr-card { --ac: var(--pr); }
+  .amort-card .ac-label {
+    font-family:'Rajdhani',sans-serif; font-weight:700;
+    font-size:11px; letter-spacing:2px; text-transform:uppercase;
+    margin-bottom:12px;
+  }
+  .amort-card.lc-card .ac-label { color:var(--lc); }
+  .amort-card.pr-card .ac-label { color:var(--pr); }
+  .amort-card .ac-invest {
+    font-size:12px; color:var(--text3); margin-bottom:6px;
+  }
+  .amort-card .ac-rows { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+  .amort-card .ac-row {
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .amort-card .ac-row-label { font-size:12px; color:var(--text2); flex:1; }
+  .amort-card .ac-row-val {
+    font-family:'Barlow',sans-serif; font-weight:800; font-size:15px; letter-spacing:0.5px;
+  }
+  .amort-card.lc-card .ac-row-val { color:var(--lc); }
+  .amort-card.pr-card .ac-row-val { color:var(--pr); }
+  .progress-bar {
+    height:4px; background:var(--bg4); border-radius:2px; flex:3; max-width:180px;
+  }
+  .progress-bar .fill {
+    height:100%; border-radius:2px;
+    background: linear-gradient(90deg, var(--fill-a), var(--fill-b));
+  }
+  .lc-card .fill { --fill-a: var(--cyan-dim); --fill-b: var(--lc); }
+  .pr-card .fill { --fill-a: var(--gold-dim); --fill-b: var(--pr); }
+
+  /* ── COMPARAISON FINALE ── */
+  .compare-block {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow:hidden;
+  }
+  .compare-block .compare-header {
+    background: var(--bg3);
+    padding:12px 20px;
+    border-bottom: 1px solid var(--border);
+    font-family:'Orbitron',sans-serif; font-weight:700;
+    font-size:11px; letter-spacing:2px; text-transform:uppercase;
+    color: var(--text2);
+  }
+  .compare-grid {
+    display:grid; grid-template-columns: 1fr 1fr;
+  }
+  .compare-col {
+    padding:20px 24px;
+  }
+  .compare-col:first-child { border-right:1px solid var(--border); }
+  .compare-col .cc-title {
+    font-family:'Rajdhani',sans-serif; font-weight:700;
+    font-size:13px; letter-spacing:2px; text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .compare-col.lc .cc-title { color:var(--lc); }
+  .compare-col.pr .cc-title { color:var(--pr); }
+  .compare-col .cc-line {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:6px 0; border-bottom:1px solid var(--border);
+    font-size:12px;
+  }
+  .compare-col .cc-line:last-child { border-bottom:none; }
+  .compare-col .cc-line .cc-key { color:var(--text3); }
+  .compare-col .cc-line .cc-val { font-weight:600; color:var(--text); }
+  .compare-col.lc .cc-line .cc-val-accent { color:var(--lc); font-family:'Barlow',sans-serif; font-size:14px; font-weight:800; }
+  .compare-col.pr .cc-line .cc-val-accent { color:var(--pr); font-family:'Barlow',sans-serif; font-size:14px; font-weight:800; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align:center;
+    margin-top:60px;
+    padding-top:24px;
+    border-top:1px solid var(--border);
+    color:var(--text3);
+    font-size:11px;
+    font-family:'Rajdhani',sans-serif;
+    letter-spacing:2px;
+    text-transform:uppercase;
+  }
+  .footer strong { color:var(--gold); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(16px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .page > * {
+    animation: fadeUp .5s ease both;
+  }
+  .page > *:nth-child(1) { animation-delay:.05s; }
+  .page > *:nth-child(2) { animation-delay:.1s; }
+  .page > *:nth-child(3) { animation-delay:.15s; }
+  .page > *:nth-child(4) { animation-delay:.2s; }
+  .page > *:nth-child(5) { animation-delay:.25s; }
+  .page > *:nth-child(6) { animation-delay:.3s; }
+  .page > *:nth-child(7) { animation-delay:.35s; }
+  .page > *:nth-child(8) { animation-delay:.4s; }
+  .page > *:nth-child(9) { animation-delay:.45s; }
+  .page > *:nth-child(10) { animation-delay:.5s; }
+
+  .kamas::after { content:' K'; font-size:.75em; color:var(--text3); }
+  .nota { font-size:11px; color:var(--text3); font-style:italic; margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="badge">📊 Analyse Rentabilité</div>
+    <h1>PL <span>VÉNÉRABLE ENDORMI</span></h1>
+    <div class="sub">Bilan Investissement · Clés · Drop · Amortissement — by Tenmalexis</div>
+  </div>
+
+  <!-- SECTION 1 : INVESTISSEMENT STUFF -->
+  <div class="section-title">
+    <span class="icon" style="color:var(--gold)">⚔️</span>
+    <h2>01 — <span>Investissement Stuff</span></h2>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Personnage</th>
+          <th>Rôle / Build</th>
+          <th class="right">LowCost</th>
+          <th class="right">Premium</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="divider"><td colspan="4">⚔️ Équipe Farm (4 perso actifs)</td></tr>
+        <tr>
+          <td>Sadida</td>
+          <td>Terre LowCost / Terre Premium</td>
+          <td class="lc">110 000 000 K</td>
+          <td class="pr">250 000 000 K</td>
+        </tr>
+        <tr>
+          <td>Pandawa</td>
+          <td>Air <span style="color:var(--lc);font-size:11px;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1px;">— LC UNIQUEMENT</span></td>
+          <td class="lc">45 000 000 K</td>
+          <td class="right muted" style="text-align:right;">—</td>
+        </tr>
+        <tr>
+          <td>Pandawa</td>
+          <td>Eau <span style="color:var(--pr);font-size:11px;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1px;">— PREMIUM UNIQUEMENT</span></td>
+          <td class="right muted" style="text-align:right;">—</td>
+          <td class="pr">70 000 000 K</td>
+        </tr>
+        <tr>
+          <td>Éliotrope</td>
+          <td>Eau PP (Pryssion → Ocre)</td>
+          <td class="lc">25 000 000 K</td>
+          <td class="pr">25 000 000 K</td>
+        </tr>
+        <tr>
+          <td>Roublard</td>
+          <td>Eau PP</td>
+          <td class="lc">15 000 000 K</td>
+          <td class="pr">15 000 000 K</td>
+        </tr>
+        <tr class="divider"><td colspan="4">🎓 Mule Sagesse (niv. 1 → 161)</td></tr>
+        <tr>
+          <td>Mule</td>
+          <td>Sagesse (selon niveau)</td>
+          <td class="lc">2 000 000 K</td>
+          <td class="pr">32 000 000 K</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="2" style="color:var(--text2); font-size:12px; font-family:'Rajdhani',sans-serif; font-weight:700; letter-spacing:2px; text-transform:uppercase;">INVESTISSEMENT TOTAL</td>
+          <td class="lc" style="font-size:18px; font-family:'Barlow',sans-serif; font-weight:800;">197 000 000 K</td>
+          <td class="pr" style="font-size:18px; font-family:'Barlow',sans-serif; font-weight:800;">392 000 000 K</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2" style="margin-top:14px;">
+    <div class="card cyan">
+      <div class="card-label"><span class="dot"></span> LowCost — Pandawa Air</div>
+      <div class="card-value lc">197 M K</div>
+      <div class="card-sub">Combats ~10 min · Pandawa Air · Mule sagesse basique (lvl 50–100)</div>
+    </div>
+    <div class="card gold">
+      <div class="card-label"><span class="dot"></span> Premium — Pandawa Eau</div>
+      <div class="card-value pr">392 M K</div>
+      <div class="card-sub">Combats ~6–7 min · Pandawa Eau · Mule sagesse full PP · Écart : +195M</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 : ÉCONOMIE DES CLÉS -->
+  <div class="section-title">
+    <span class="icon" style="color:var(--cyan)">🗝️</span>
+    <h2>02 — <span>Économie des Clés</span></h2>
+  </div>
+
+  <div class="grid-4">
+    <div class="card cyan">
+      <div class="card-label"><span class="dot"></span> Clé HDV</div>
+      <div class="card-value lc">32 000 K</div>
+      <div class="card-sub">Prix marché actuel</div>
+    </div>
+    <div class="card">
+      <div class="card-label"><span class="dot"></span> Clé Craft (pré-farm)</div>
+      <div class="card-value">24 000 K</div>
+      <div class="card-sub">Craft complet, sans drop</div>
+    </div>
+    <div class="card green">
+      <div class="card-label"><span class="dot"></span> Clé Post-Farm</div>
+      <div class="card-value green-val">11 000 K</div>
+      <div class="card-sub">Avec drop Poisskaille / Perce-Neige / Dents zarbivore</div>
+    </div>
+    <div class="card gold">
+      <div class="card-label"><span class="dot"></span> Moyenne / 800 clés</div>
+      <div class="card-value pr">12 625 K</div>
+      <div class="card-sub">= 100 DJ · moyenne pondérée</div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:14px;">
+    <table>
+      <thead>
+        <tr>
+          <th>Scénario</th>
+          <th class="right">Coût / clé</th>
+          <th class="right">Qté (100 DJ × 8)</th>
+          <th class="right">Coût total</th>
+          <th class="right">vs HDV</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag pr-tag">HDV pur</span></td>
+          <td class="right">32 000 K</td>
+          <td class="right">800</td>
+          <td class="right" style="color:var(--red);">25 600 000 K</td>
+          <td class="right muted">—</td>
+        </tr>
+        <tr>
+          <td><span class="tag lc-tag">Craft pré-farm</span></td>
+          <td class="right">24 000 K</td>
+          <td class="right">100 (série initiale)</td>
+          <td class="right" style="color:var(--orange);">2 400 000 K</td>
+          <td class="right" style="color:var(--green);">−8 000 K/clé</td>
+        </tr>
+        <tr>
+          <td><span class="tag both-tag">Post-farm (recraf with drop)</span></td>
+          <td class="right">11 000 K</td>
+          <td class="right">700</td>
+          <td class="right" style="color:var(--green);">7 700 000 K</td>
+          <td class="right" style="color:var(--green);">−21 000 K/clé</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="2" style="color:var(--text2); font-size:12px;">Économie totale vs HDV pur (100 DJ · 100 craft + 700 post-farm)</td>
+          <td class="right" style="color:var(--text3);">800 clés</td>
+          <td class="green-val" style="font-size:15px; text-align:right;">−15 500 000 K</td>
+          <td class="right" style="color:var(--green); font-size:11px;">économisés</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 3 : DROP & REVENUS -->
+  <div class="section-title">
+    <span class="icon" style="color:var(--green)">💰</span>
+    <h2>03 — <span>Revenus Drop (8 perso · Solo)</span></h2>
+  </div>
+
+  <div class="highlight-box info">
+    <div class="hb-icon">📐</div>
+    <div>
+      <div class="hb-title">Base de calcul</div>
+      <div class="hb-text">
+        Baseline sans anomalie : <strong>~11M / 15 DJ</strong> → <strong>~0.733M / DJ</strong><br>
+        Avec anomalie +70% : <strong>~13M / 15 DJ</strong> → <strong>~0.867M / DJ</strong><br>
+        Extrapolation à 100 DJ : <strong>73.3M sans ano</strong> · <strong>86.7M avec ano (+70%)</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Source de revenu</th>
+          <th class="right">Base / 15 DJ</th>
+          <th class="right">Extrapolé / 100 DJ</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🗃️ Ressources boss (sans ano)</td>
+          <td class="right" style="color:var(--text)">~11 000 000 K</td>
+          <td class="green-val">~73 300 000 K</td>
+          <td class="muted">Valeur de base observée</td>
+        </tr>
+        <tr>
+          <td>✨ Ressources boss (ano +70%)</td>
+          <td class="right" style="color:var(--text)">~13 000 000 K</td>
+          <td class="green-val">~86 700 000 K</td>
+          <td class="muted">Avec bonus anomalie actif</td>
+        </tr>
+        <tr class="divider"><td colspan="4">🐾 Familiers (revente HDV niv.100)</td></tr>
+        <tr>
+          <td>Peau zarbi / Squarme / 5 res. OR → 1 fami niv.100</td>
+          <td class="right" style="color:var(--text)">1 fami / 15 DJ</td>
+          <td class="right" style="color:var(--text)">~6–7 famis / 100 DJ</td>
+          <td class="muted">≈ 5M HDV / fami (observé)</td>
+        </tr>
+        <tr>
+          <td>💎 Valeur familiers / 15 DJ</td>
+          <td class="right" style="color:var(--purple)">~5 000 000 K</td>
+          <td class="right" style="color:var(--purple)">~33 000 000 K</td>
+          <td class="muted">Sous réserve drops</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 04 : MÉTIER CHASSEUR -->
+  <div class="section-title">
+    <span class="icon" style="color:var(--orange)">🏹</span>
+    <h2>04 — <span>Métier Chasseur (Séparé)</span></h2>
+  </div>
+
+  <div class="grid-4">
+    <div class="card">
+      <div class="card-label"><span class="dot" style="background:var(--orange); box-shadow:0 0 6px var(--orange)"></span> Coût up 200</div>
+      <div class="card-value" style="color:var(--orange)">1 200 000 K</div>
+      <div class="card-sub">/ personnage</div>
+    </div>
+    <div class="card">
+      <div class="card-label"><span class="dot" style="background:var(--orange); box-shadow:0 0 6px var(--orange)"></span> Nb perso</div>
+      <div class="card-value" style="color:var(--orange)">8 perso</div>
+      <div class="card-sub">équipe complète</div>
+    </div>
+    <div class="card">
+      <div class="card-label"><span class="dot" style="background:var(--orange); box-shadow:0 0 6px var(--orange)"></span> Investissement total</div>
+      <div class="card-value" style="color:var(--orange)">9 600 000 K</div>
+      <div class="card-sub">8 × 1.2M</div>
+    </div>
+    <div class="card green">
+      <div class="card-label"><span class="dot"></span> Amortissement théorique</div>
+      <div class="card-value green-val">~11 DJ</div>
+      <div class="card-sub">toutes ressources brut comptées</div>
+    </div>
+  </div>
+
+  <div class="highlight-box success" style="margin-top:14px;">
+    <div class="hb-icon">✅</div>
+    <div>
+      <div class="hb-title">Conclusion Chasseur</div>
+      <div class="hb-text">
+        Avec <strong>9.6M de Kamas</strong> d'investissement amorti en <strong>~11 DJ</strong>, le métier Chasseur est quasi-obligatoire pour maximiser les drops de ressources.
+        À <strong>1.61M/DJ</strong> de revenus totaux en mode PL, le chasseur est rentabilisé en <strong>~6 jours de farm</strong>.<br>
+        <strong>Note :</strong> Le drop de Bidoches (0.6%) reste anecdotique — ne pas l'intégrer dans le calcul de base.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 05 : PL (MODE SERVICES) -->
+  <div class="section-title">
+    <span class="icon" style="color:var(--purple)">👥</span>
+    <h2>05 — <span>Mode PL (4 Perso + 4 Clients)</span></h2>
+  </div>
+
+  <div class="highlight-box info">
+    <div class="hb-icon">⚙️</div>
+    <div>
+      <div class="hb-title">Règles du mode PL</div>
+      <div class="hb-text">
+        <strong>4 personnages actifs</strong> + <strong>4 clients</strong> = 8 slots<br>
+        → Drop divisé par 2 · Clés divisées par 2<br>
+        → Revenu clients : <strong>250 000 K / DJ / client × 4 = 1 000 000 K / DJ</strong><br>
+        → Durée moyenne : <strong>8 min / DJ</strong> (variable selon stuff)
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th class="right">/ DJ (PL)</th>
+          <th class="right">/ 100 DJ</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>💸 Revenus clients (4 × 250K)</td>
+          <td class="green-val">1 000 000 K</td>
+          <td class="green-val">100 000 000 K</td>
+          <td class="muted">Prix à valider / variable marché</td>
+        </tr>
+        <tr>
+          <td>🗃️ Drop ressources (÷2)</td>
+          <td class="right" style="color:var(--text)">~366 500 K</td>
+          <td class="right" style="color:var(--text)">~36 650 000 K</td>
+          <td class="muted">Sans ano · drop /2</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="2" style="color:var(--text2); font-size:12px;">TOTAL REVENUS MODE PL / 100 DJ</td>
+          <td class="green-val" style="font-size:16px; text-align:right;">~136 650 000 K</td>
+          <td class="muted">Clients + Drop/2</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 5 : AMORTISSEMENT STUFF -->
+  <div class="section-title">
+    <span class="icon" style="color:var(--gold)">📈</span>
+    <h2>06 — <span>Amortissement Stuff (Mode PL)</span></h2>
+  </div>
+
+  <div class="highlight-box warn">
+    <div class="hb-icon">💡</div>
+    <div>
+      <div class="hb-title">Méthode de calcul</div>
+      <div class="hb-text">
+        Investissement ÷ revenu clients seul (1M/DJ) = DJ à atteindre pour rentrer dans ses frais.<br>
+        En incluant les revenus drop (÷2), l'amortissement est encore plus rapide.
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="amort-card lc-card">
+      <div class="ac-label">⚡ LowCost — ~197M K</div>
+      <div class="ac-invest">Investissement de référence : 197 000 000 K</div>
+      <div class="ac-rows">
+        <div class="ac-row">
+          <div class="ac-row-label">Via clients seuls (1M/DJ)</div>
+          <div class="progress-bar"><div class="fill" style="width:100%"></div></div>
+          <div class="ac-row-val">197 DJ</div>
+        </div>
+        <div class="ac-row">
+          <div class="ac-row-label">Via revenus totaux PL (~1.37M/DJ)</div>
+          <div class="progress-bar"><div class="fill" style="width:72%"></div></div>
+          <div class="ac-row-val">~144 DJ</div>
+        </div>
+        <div class="ac-row">
+          <div class="ac-row-label">Durée estimée (8 min/DJ)</div>
+          <div class="progress-bar"><div class="fill" style="width:72%"></div></div>
+          <div class="ac-row-val">~19h12</div>
+        </div>
+      </div>
+    </div>
+    <div class="amort-card pr-card">
+      <div class="ac-label">👑 Premium — ~392M K</div>
+      <div class="ac-invest">Investissement de référence : 392 000 000 K</div>
+      <div class="ac-rows">
+        <div class="ac-row">
+          <div class="ac-row-label">Via clients seuls (1M/DJ)</div>
+          <div class="progress-bar"><div class="fill" style="width:100%"></div></div>
+          <div class="ac-row-val">392 DJ</div>
+        </div>
+        <div class="ac-row">
+          <div class="ac-row-label">Via revenus totaux PL (~1.37M/DJ)</div>
+          <div class="progress-bar"><div class="fill" style="width:60%"></div></div>
+          <div class="ac-row-val">~287 DJ</div>
+        </div>
+        <div class="ac-row">
+          <div class="ac-row-label">Durée estimée (6.5 min/DJ)</div>
+          <div class="progress-bar"><div class="fill" style="width:60%"></div></div>
+          <div class="ac-row-val">~31h06</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 07 : BILAN COMPARATIF FINAL -->
+  <div class="section-title">
+    <span class="icon" style="color:var(--gold)">🏆</span>
+    <h2>07 — <span>Bilan Comparatif Final</span></h2>
+  </div>
+
+  <div class="compare-block">
+    <div class="compare-header">LowCost vs Premium — Résumé Décisionnel</div>
+    <div class="compare-grid">
+      <div class="compare-col lc">
+        <div class="cc-title">⚡ LowCost</div>
+        <div class="cc-line"><span class="cc-key">Investissement</span><span class="cc-val-accent">197 M K</span></div>
+        <div class="cc-line"><span class="cc-key">Durée combat</span><span class="cc-val">~10 min / DJ</span></div>
+        <div class="cc-line"><span class="cc-key">Revenu clients (100 DJ)</span><span class="cc-val">100 000 000 K</span></div>
+        <div class="cc-line"><span class="cc-key">Revenus totaux (100 DJ)</span><span class="cc-val">~161 M K</span></div>
+        <div class="cc-line"><span class="cc-key">Amortissement (revenus totaux)</span><span class="cc-val-accent">~144 DJ</span></div>
+        <div class="cc-line"><span class="cc-key">Temps amortissement</span><span class="cc-val">~19h12 de farm</span></div>
+        <div class="cc-line"><span class="cc-key">Chasseur (séparé)</span><span class="cc-val">+9.6M · ~11 DJ</span></div>
+      </div>
+      <div class="compare-col pr">
+        <div class="cc-title">👑 Premium</div>
+        <div class="cc-line"><span class="cc-key">Investissement</span><span class="cc-val-accent">392 M K</span></div>
+        <div class="cc-line"><span class="cc-key">Durée combat</span><span class="cc-val">~6–7 min / DJ</span></div>
+        <div class="cc-line"><span class="cc-key">Revenu clients (100 DJ)</span><span class="cc-val">100 000 000 K</span></div>
+        <div class="cc-line"><span class="cc-key">Revenus totaux (100 DJ)</span><span class="cc-val">~161 M K</span></div>
+        <div class="cc-line"><span class="cc-key">Amortissement (revenus totaux)</span><span class="cc-val-accent">~287 DJ</span></div>
+        <div class="cc-line"><span class="cc-key">Temps amortissement</span><span class="cc-val">~31h06 de farm</span></div>
+        <div class="cc-line"><span class="cc-key">Chasseur (séparé)</span><span class="cc-val">+9.6M · ~11 DJ</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box warn" style="margin-top:14px;">
+    <div class="hb-icon">🎯</div>
+    <div>
+      <div class="hb-title">Verdict — LowCost vs Premium</div>
+      <div class="hb-text">
+        L'écart d'investissement (~195M) donne au Premium des combats <strong>3–4 min plus rapides</strong>.<br>
+        Sur 287 DJ premium = ~31h06 · vs ~19h12 LowCost pour le même seuil de rentabilité.<br>
+        → Le LowCost <strong>s'amortit ~143 DJ plus tôt</strong>, soit une économie de ~11h54 de farm avant break-even.<br>
+        → Le Premium devient rentable <strong>uniquement sur du très long terme</strong> (volume élevé + revente services).<br>
+        <strong>Recommandation vidéo :</strong> LowCost = meilleur ratio investissement/amortissement. Premium = optimisation pour farmeurs hardcore.
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <strong>TENMALEXIS</strong> · Analyse PL Vénérable Endormi · Dofus 3.x (Unity) · Données observées — avril 2026
+  </div>
+
+</div>
+</body>
+</html>
