@@ -1,4 +1,4 @@
-[README (2).md](https://github.com/user-attachments/files/26456742/README.2.md)
+[README (3).md](https://github.com/user-attachments/files/26456840/README.3.md)
 # ⚔️ BILAN PL — VÉNÉRABLE ENDORMI
 
 > **Analyse complète de rentabilité du PowerLeveling au Vénérable Endormi sur Dofus 3.x (Unity)**  
@@ -8,7 +8,9 @@
 
 ## 🔗 Accès au bilan interactif
 
-[![Voir le Bilan](https://img.shields.io/badge/📊%20VOIR%20LE%20BILAN-Ouvrir%20dans%20le%20navigateur-f0b429?style=for-the-badge&labelColor=0a0c10)](https://tenmalexis.github.io/bilan-venerable/bilan_pl_venerable_endormi%20(2).html)
+<a href="https://tenmalexis.github.io/bilan-venerable/bilan_pl_venerable_endormi.html" target="_blank">
+  <img src="https://img.shields.io/badge/📊%20VOIR%20LE%20BILAN-Ouvrir%20dans%20le%20navigateur-f0b429?style=for-the-badge&labelColor=0a0c10" alt="Voir le Bilan"/>
+</a>
 
 ---
 
@@ -81,7 +83,7 @@ CHASSEUR (séparé)
 
 | Fichier | Description |
 |---------|-------------|
-| `bilan_pl_venerable_endormi (2).html` | Dashboard interactif complet — ouvrir dans un navigateur |
+| `bilan_pl_venerable_endormi.html` | Dashboard interactif complet — ouvrir dans un navigateur |
 
 ---
 
